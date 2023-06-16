@@ -17,7 +17,7 @@ import { ConfigModule } from '@nestjs/config';
     BookmarkModule, 
     PrismaModule
   ],
-  controllers: [AuthController],
-  providers: [AuthService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule { }
