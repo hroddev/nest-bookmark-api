@@ -4,6 +4,7 @@ import { AppModule } from 'src/app.module'
 import { PrismaService } from 'src/prisma/prisma.service'
 import * as pactum from 'pactum'
 import { AuthDto } from 'src/auth/dto'
+import { EditUserDto } from 'src/user/dto'
 
 describe('App e2e', () => {
   let app: INestApplication
@@ -126,12 +127,42 @@ describe('App e2e', () => {
       })
     
     })
-    describe('Edit user', () => { })
+    describe('Edit user', () => { 
+      const dto: EditUserDto = {
+        firstname: 'Test',
+        email: 'user@test.com'
+      }
+      it('should edit user', () => {
+        return pactum
+          .spec()
+          .patch('/users')
+          .withHeaders({
+            Authorization: 'Bearer $S{userAt}'
+          })
+          .withBody(dto)
+          .expectStatus(200)
+          .expectBodyContains(dto.firstname)
+          .expectBodyContains(dto.email)
+      })
+  
+    })
   })
 
   describe('Bookmark', () => {
+    describe('Get bookmarks', () => { 
+      it('should get empty bookmarks', () => {
+        return pactum
+          .spec()
+          .get('/bookmarks')
+          .withHeaders({
+            Authorization: 'Bearer $S{userAt}'
+          })
+          .expectStatus(200)
+          .expectBody([])
+      
+      })
+    })
     describe('Create bookmark', () => { })
-    describe('Get bookmarks', () => { })
     describe('Get bookmark by id', () => { })
     describe('Edit bookmark by id', () => { })
     describe('Delete bookmark by id', () => { })
