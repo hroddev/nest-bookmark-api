@@ -5,6 +5,9 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
+  const globalPrefix = 'api'
+
+  app.setGlobalPrefix(globalPrefix)
 
   // swagger config
   const options = new DocumentBuilder()
@@ -16,7 +19,10 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, options)
   
-  SwaggerModule.setup('api', app, document)
+  SwaggerModule.setup('docs', app, document)
+
+  // Enable CORS
+  app.enableCors()
 
   app.useGlobalPipes(
     new ValidationPipe({

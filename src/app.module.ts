@@ -4,9 +4,14 @@ import { UserModule } from './user/user.module'
 import { BookmarkModule } from './bookmark/bookmark.module'
 import { PrismaModule } from './prisma/prisma.module'
 import { ConfigModule } from '@nestjs/config'
+import { ServeStaticModule } from '@nestjs/serve-static'
+import { join } from 'path';
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '../../ui', 'dist/ui'),
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -16,4 +21,4 @@ import { ConfigModule } from '@nestjs/config'
     PrismaModule,
   ],
 })
-export class AppModule {}
+export class AppModule { }
